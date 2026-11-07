@@ -15,8 +15,8 @@
         window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
       }
     </script>
-    <script type="module" crossorigin src="/Tarea-2/assets/index-BOfanGfz.js"></script>
-    <link rel="stylesheet" crossorigin href="/Tarea-2/assets/index-Bq3MGegF.css">
+    <script type="module" crossorigin src="/Tarea-2/assets/index.js"></script>
+    <link rel="stylesheet" crossorigin href="/Tarea-2/assets/index.css">
   </head>
   <body style="margin:0;background:#070d1e;color:#cbd5e1;font-family:system-ui,-apple-system,sans-serif;">
     <div id="root">
@@ -43,30 +43,35 @@
                 var retryScript = document.createElement('script');
                 retryScript.type = 'module';
                 retryScript.crossOrigin = 'anonymous';
-                retryScript.src = '/Tarea-2/assets/index-Cm9cQWNq.js';
+                retryScript.src = '/Tarea-2/assets/index.js';
                 document.head.appendChild(retryScript);
 
                 var retryCss = document.createElement('link');
                 retryCss.rel = 'stylesheet';
                 retryCss.crossOrigin = 'anonymous';
-                retryCss.href = '/Tarea-2/assets/index-BCZmtNW4.css';
+                retryCss.href = '/Tarea-2/assets/index.css';
                 document.head.appendChild(retryCss);
                 return;
               }
 
-              // Si falló por ruta absoluta raíz (/assets/...) y estamos en subcarpeta (/Tarea-2/)
+              // Si falló por ruta relativa y estamos en subcarpeta (/Tarea-2/)
               if (!target.dataset.retried && !failedSrc.includes('/Tarea-2/')) {
                 target.dataset.retried = 'true';
                 var fileName = failedSrc.split('/').pop();
-                var retryUrl = '/Tarea-2/assets/' + fileName;
-                console.warn('Reintentando carga desde subcarpeta:', retryUrl);
                 var retryScript2 = document.createElement('script');
                 retryScript2.type = 'module';
                 retryScript2.crossOrigin = 'anonymous';
-                retryScript2.src = retryUrl;
+                retryScript2.src = '/Tarea-2/assets/' + fileName;
                 document.head.appendChild(retryScript2);
                 return;
               }
+            }
+
+            // Si falló una hoja de estilos CSS, no bloquear la aplicación si los estilos ya cargaron
+            if (target && target.tagName === 'LINK' && target.rel === 'stylesheet') {
+              console.warn('Aviso de hoja de estilos:', target.href);
+              return;
+            }
             }
 
             if (diag) {
