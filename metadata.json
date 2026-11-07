@@ -1,0 +1,6 @@
+{
+  "name": "Duda Razonable: El robo en la galería",
+  "description": "Laboratorio interactivo de probabilidad y estadística. Proyecto universitario sobre inclusión-exclusión, independencia, teorema de Bayes y enfoque frecuencial.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
