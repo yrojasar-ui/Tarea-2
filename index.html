@@ -35,17 +35,34 @@
               var failedSrc = target.src;
               console.error('Error cargando script:', failedSrc);
               
+              // Si falló src/main.tsx porque GitHub Pages está sirviendo desde la raíz de main
+              if (failedSrc.includes('src/main.tsx')) {
+                console.warn('Detectado fallo al cargar src/main.tsx en producción estática. Cargando bundle compilado...');
+                var retryScript = document.createElement('script');
+                retryScript.type = 'module';
+                retryScript.crossOrigin = 'anonymous';
+                retryScript.src = '/Tarea-2/assets/index-Cm9cQWNq.js';
+                document.head.appendChild(retryScript);
+
+                var retryCss = document.createElement('link');
+                retryCss.rel = 'stylesheet';
+                retryCss.crossOrigin = 'anonymous';
+                retryCss.href = '/Tarea-2/assets/index-BCZmtNW4.css';
+                document.head.appendChild(retryCss);
+                return;
+              }
+
               // Si falló por ruta absoluta raíz (/assets/...) y estamos en subcarpeta (/Tarea-2/)
               if (!target.dataset.retried && !failedSrc.includes('/Tarea-2/')) {
                 target.dataset.retried = 'true';
                 var fileName = failedSrc.split('/').pop();
                 var retryUrl = '/Tarea-2/assets/' + fileName;
                 console.warn('Reintentando carga desde subcarpeta:', retryUrl);
-                var retryScript = document.createElement('script');
-                retryScript.type = 'module';
-                retryScript.crossOrigin = 'anonymous';
-                retryScript.src = retryUrl;
-                document.head.appendChild(retryScript);
+                var retryScript2 = document.createElement('script');
+                retryScript2.type = 'module';
+                retryScript2.crossOrigin = 'anonymous';
+                retryScript2.src = retryUrl;
+                document.head.appendChild(retryScript2);
                 return;
               }
             }

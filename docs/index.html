@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duda Razonable: El robo en la galería</title>
+    <meta name="description" content="Laboratorio interactivo de probabilidad y estadística. Proyecto universitario sobre inclusión-exclusión, independencia, teorema de Bayes y enfoque frecuencial." />
+    <meta property="og:title" content="Duda Razonable: El robo en la galería" />
+    <meta property="og:description" content="Laboratorio interactivo de probabilidad y estadística. Proyecto universitario sobre inclusión-exclusión, independencia, teorema de Bayes y enfoque frecuencial." />
+    <meta property="og:type" content="website" />
+    <script>
+      // Garantizar que en GitHub Pages la URL de subcarpeta tenga la barra final '/'
+      // para que los recursos relativos './assets/...' no busquen en la raíz del dominio
+      if (!window.location.pathname.endsWith('/') && !window.location.pathname.split('/').pop().includes('.')) {
+        window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+      }
+    </script>
+    <script type="module" crossorigin src="/Tarea-2/assets/index-BOfanGfz.js"></script>
+    <link rel="stylesheet" crossorigin href="/Tarea-2/assets/index-Bq3MGegF.css">
+  </head>
+  <body style="margin:0;background:#070d1e;color:#cbd5e1;font-family:system-ui,-apple-system,sans-serif;">
+    <div id="root">
+      <div id="boot-loader" style="min-height:100vh;background:#070d1e;color:#cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center;">
+        <div style="width:36px;height:36px;border:3px solid #1e293b;border-top-color:#14b8a6;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:16px;"></div>
+        <p style="font-size:15px;font-weight:600;margin:0 0 6px 0;color:#f8fafc;">Cargando expediente · DUDA RAZONABLE</p>
+        <p style="font-size:12px;color:#94a3b8;margin:0;max-width:380px;">Laboratorio interactivo de probabilidad y peritaje forense.</p>
+        <div id="boot-diagnostic" style="display:none;margin-top:20px;padding:14px;background:#1e1b4b;border:1px solid #f43f5e;border-radius:8px;font-size:12px;text-align:left;max-width:480px;color:#ffe4e6;"></div>
+        <style>@keyframes spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
+        <script>
+          // 1. Captura de errores de red en scripts/estilos (useCapture: true)
+          window.addEventListener('error', function(e) {
+            var target = e.target;
+            var diag = document.getElementById('boot-diagnostic');
+            
+            // Si falló un script
+            if (target && target.tagName === 'SCRIPT' && target.src) {
+              var failedSrc = target.src;
+              console.error('Error cargando script:', failedSrc);
+              
+              // Si falló src/main.tsx porque GitHub Pages está sirviendo desde la raíz de main
+              if (failedSrc.includes('src/main.tsx')) {
+                console.warn('Detectado fallo al cargar src/main.tsx en producción estática. Cargando bundle compilado...');
+                var retryScript = document.createElement('script');
+                retryScript.type = 'module';
+                retryScript.crossOrigin = 'anonymous';
+                retryScript.src = '/Tarea-2/assets/index-Cm9cQWNq.js';
+                document.head.appendChild(retryScript);
+
+                var retryCss = document.createElement('link');
+                retryCss.rel = 'stylesheet';
+                retryCss.crossOrigin = 'anonymous';
+                retryCss.href = '/Tarea-2/assets/index-BCZmtNW4.css';
+                document.head.appendChild(retryCss);
+                return;
+              }
+
+              // Si falló por ruta absoluta raíz (/assets/...) y estamos en subcarpeta (/Tarea-2/)
+              if (!target.dataset.retried && !failedSrc.includes('/Tarea-2/')) {
+                target.dataset.retried = 'true';
+                var fileName = failedSrc.split('/').pop();
+                var retryUrl = '/Tarea-2/assets/' + fileName;
+                console.warn('Reintentando carga desde subcarpeta:', retryUrl);
+                var retryScript2 = document.createElement('script');
+                retryScript2.type = 'module';
+                retryScript2.crossOrigin = 'anonymous';
+                retryScript2.src = retryUrl;
+                document.head.appendChild(retryScript2);
+                return;
+              }
+            }
+
+            if (diag) {
+              diag.style.display = 'block';
+              diag.innerHTML = '<strong>Error de inicialización:</strong> ' + (e.message || 'No se pudo cargar un archivo esencial') +
+                '<br><span style="color:#cbd5e1;font-size:11px;">Ruta: ' + (e.filename || (target && (target.src || target.href)) || window.location.href) + '</span>' +
+                '<br><br><span style="color:#fbbf24;font-size:11px;">Sugerencia: Si estás en GitHub Pages, verifica que la URL termine en barra final <code>.../Tarea-2/</code> y que los cambios se hayan subido a la rama de despliegue.</span>';
+            }
+          }, true);
+
+          // 2. Captura de promesas rechazadas
+          window.addEventListener('unhandledrejection', function(e) {
+            var diag = document.getElementById('boot-diagnostic');
+            if (diag) {
+              diag.style.display = 'block';
+              diag.innerHTML = '<strong>Excepción no capturada:</strong> ' + (e.reason ? (e.reason.message || e.reason) : 'Error en promesa');
+            }
+          });
+
+          // 3. Temporizador de diagnóstico si React tarda más de 4s en montar
+          setTimeout(function() {
+            var loader = document.getElementById('boot-loader');
+            var diag = document.getElementById('boot-diagnostic');
+            if (loader && diag && diag.style.display !== 'block') {
+              diag.style.display = 'block';
+              diag.innerHTML = '<strong>La aplicación está tardando en iniciar.</strong><br>' +
+                '<span style="color:#cbd5e1;font-size:11px;">Es posible que el navegador no haya podido descargar los módulos JavaScript desde esta ruta.<br>' +
+                'URL actual: <code>' + window.location.href + '</code></span><br><br>' +
+                '<button onclick="window.location.reload(true)" style="padding:6px 12px;background:#14b8a6;color:#022c22;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:11px;">Recargar página</button>';
+            }
+          }, 4000);
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
+
