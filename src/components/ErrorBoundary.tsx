@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
     } catch {
       // Ignorar restricciones de almacenamiento
     }
-    window.location.href = window.location.pathname;
+    window.location.reload();
   };
 
   public render() {

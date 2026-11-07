@@ -4,13 +4,22 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(({ mode }) => {
-  // En GitHub Actions, GITHUB_REPOSITORY es 'usuario/repo' (ej. 'yoerojas03/Tarea-2')
-  // Para GitHub Pages en subdirectorio, el base debe ser '/repo/'
+  // Determinación de la ruta pública base (base path) para despliegues:
+  // - En GitHub Actions, GITHUB_REPOSITORY tiene el formato 'usuario/nombre-repositorio'.
+  //   Se extrae el nombre para generar la ruta '/nombre-repositorio/'.
+  // - Se permite sobrescribir mediante la variable de entorno VITE_BASE_PATH.
+  // - Si no se detecta entorno de GitHub Actions ni variable, se usa './' (rutas relativas)
+  //   para evitar rutas absolutas fijas desde la raíz que provoquen pantallas en blanco.
   let base = './';
-  if (process.env.GITHUB_REPOSITORY) {
-    base = `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`;
-  } else if (mode === 'production' && !process.env.AI_STUDIO) {
-    base = '/Tarea-2/';
+  if (process.env.VITE_BASE_PATH) {
+    base = process.env.VITE_BASE_PATH.endsWith('/')
+      ? process.env.VITE_BASE_PATH
+      : `${process.env.VITE_BASE_PATH}/`;
+  } else if (process.env.GITHUB_REPOSITORY) {
+    const repoPart = process.env.GITHUB_REPOSITORY.split('/')[1]?.trim();
+    if (repoPart) {
+      base = `/${repoPart}/`;
+    }
   }
 
   return {
