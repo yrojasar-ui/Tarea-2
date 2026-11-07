@@ -3,13 +3,22 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+  // En GitHub Actions, GITHUB_REPOSITORY es 'usuario/repo' (ej. 'yoerojas03/Tarea-2')
+  // Para GitHub Pages en subdirectorio, el base debe ser '/repo/'
+  let base = './';
+  if (process.env.GITHUB_REPOSITORY) {
+    base = `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`;
+  } else if (mode === 'production' && !process.env.AI_STUDIO) {
+    base = '/Tarea-2/';
+  }
+
   return {
-    base: './',
+    base,
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname ?? '.', '.'),
       },
     },
     server: {

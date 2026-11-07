@@ -135,7 +135,11 @@ export const SceneConclusion: React.FC<SceneConclusionProps> = ({ role }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [showResults, setShowResults] = useState<Record<number, boolean>>({});
   const [studentNotes, setStudentNotes] = useState<string>(() => {
-    return localStorage.getItem('duda_razonable_notas') || '';
+    try {
+      return localStorage.getItem('duda_razonable_notas') || '';
+    } catch {
+      return '';
+    }
   });
   const [savedNoteStatus, setSavedNoteStatus] = useState<boolean>(false);
 
@@ -158,7 +162,11 @@ export const SceneConclusion: React.FC<SceneConclusionProps> = ({ role }) => {
   };
 
   const handleSaveNotes = () => {
-    localStorage.setItem('duda_razonable_notas', studentNotes);
+    try {
+      localStorage.setItem('duda_razonable_notas', studentNotes);
+    } catch {
+      // Ignorar error si almacenamiento está restringido
+    }
     setSavedNoteStatus(true);
     setTimeout(() => setSavedNoteStatus(false), 2500);
   };
